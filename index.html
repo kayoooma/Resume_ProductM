@@ -98,7 +98,9 @@
     "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.1/",
     "react/": "https://aistudiocdn.com/react@^19.2.1/",
     "framer-motion": "https://aistudiocdn.com/framer-motion@^12.23.25",
-    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.556.0"
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.556.0",
+    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1",
+    "vite": "https://aistudiocdn.com/vite@^7.2.7"
   }
 }
 </script>
@@ -107,6 +109,8 @@
   <body class="bg-[#fafafa] text-slate-900 dark:bg-[#050505] dark:text-slate-200 transition-colors duration-500 selection:bg-primary selection:text-white">
     <div id="root"></div>
     <div class="grain-overlay"></div>
+    <!-- CRITICAL: Entry point for the React application -->
+    <script type="module" src="./index.tsx"></script>
   <script type="module" src="/index.tsx"></script>
 </body>
 </html>
