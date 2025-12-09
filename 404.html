@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - System Failure</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Space+Grotesk:wght@700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        dark: '#050505',
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'glitch': 'glitch 1s linear infinite',
+                    },
+                    keyframes: {
+                        glitch: {
+                            '2%, 64%': { transform: 'translate(2px,0) skew(0deg)' },
+                            '4%, 60%': { transform: 'translate(-2px,0) skew(0deg)' },
+                            '62%': { transform: 'translate(0,0) skew(5deg)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #050505; color: white; overflow: hidden; }
+        .noise {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; opacity: 0.15; z-index: 50;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+        .grid-bg {
+            background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+        .scanline {
+            position: fixed; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none;
+            background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.5) 51%);
+            background-size: 100% 4px; z-index: 40;
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen relative font-sans selection:bg-primary selection:text-white">
+    
+    <div class="noise"></div>
+    <div class="scanline"></div>
+    <div class="absolute inset-0 grid-bg opacity-50"></div>
+
+    <!-- Glowing Orb -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[120px] animate-pulse-slow"></div>
+
+    <div class="relative z-50 text-center px-4">
+        <!-- Badge -->
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-500/10 border border-red-500/20 text-red-500 mb-8 backdrop-blur-md">
+            <span class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+            <span class="text-xs font-mono uppercase tracking-widest font-bold">System Failure</span>
+        </div>
+
+        <!-- 404 Title -->
+        <h1 class="text-[10rem] md:text-[15rem] font-display font-bold leading-none tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-white/5 relative select-none">
+            404
+            <span class="absolute top-0 left-0 w-full h-full text-primary/10 animate-glitch mix-blend-screen" style="clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%); transform: translate(-2px);">404</span>
+            <span class="absolute top-0 left-0 w-full h-full text-red-500/10 animate-glitch mix-blend-screen" style="clip-path: polygon(0 80%, 100% 20%, 100% 100%, 0 100%); transform: translate(2px); animation-delay: 0.1s;">404</span>
+        </h1>
+
+        <div class="max-w-md mx-auto mt-4 space-y-6">
+            <h2 class="text-2xl font-mono text-primary uppercase tracking-widest">Page Void Detected</h2>
+            <p class="text-gray-400 leading-relaxed">
+                The coordinates you are trying to access do not exist in this sector.
+                The artifact might have been archived or deleted.
+            </p>
+
+            <a href="/" class="inline-flex items-center gap-3 px-8 py-4 bg-white text-black rounded-full font-bold hover:bg-gray-200 transition-all hover:scale-105 active:scale-95 group shadow-[0_0_30px_rgba(255,255,255,0.3)]">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                Return to Base
+            </a>
+        </div>
+    </div>
+
+    <div class="absolute bottom-8 text-xs font-mono text-gray-600 uppercase tracking-[0.2em]">
+        Error_Code: ID_10_T // Sector_7G
+    </div>
+
+</body>
+</html>
