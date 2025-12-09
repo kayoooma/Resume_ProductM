@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Signal Lost</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Space+Grotesk:wght@700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        dark: '#030303',
+                    },
+                    animation: {
+                        'scan': 'scan 8s linear infinite',
+                    },
+                    keyframes: {
+                        scan: {
+                            '0%': { transform: 'translateY(-100%)', opacity: '0' },
+                            '10%': { opacity: '1' },
+                            '90%': { opacity: '1' },
+                            '100%': { transform: 'translateY(100vh)', opacity: '0' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { 
+            background-color: #030303; 
+            color: white; 
+            overflow: hidden; 
+            perspective: 1000px; /* 3D Depth */
+        }
+        
+        /* Cinematic Grain */
+        .grain {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; opacity: 0.12; z-index: 50;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            mix-blend-mode: overlay;
+        }
+
+        /* Vignette Spotlight */
+        .vignette {
+            position: fixed; inset: 0; pointer-events: none; z-index: 40;
+            background: radial-gradient(circle at center, transparent 0%, #030303 120%);
+        }
+
+        /* 3D Grid Floor */
+        .floor-grid {
+            position: absolute;
+            bottom: -50%;
+            left: -50%;
+            width: 200%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(59, 130, 246, 0.07) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, 0.07) 1px, transparent 1px);
+            background-size: 60px 60px;
+            transform: rotateX(75deg) translateY(0);
+            animation: floorMove 8s linear infinite;
+            mask-image: linear-gradient(to top, black 0%, transparent 80%);
+            -webkit-mask-image: linear-gradient(to top, black 0%, transparent 80%);
+            z-index: 0;
+        }
+
+        @keyframes floorMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 60px; }
+        }
+
+        /* Holographic Text Effect */
+        .mega-text {
+            font-size: clamp(6rem, 18vw, 20rem);
+            line-height: 0.8;
+            font-weight: 800;
+            color: transparent;
+            -webkit-text-stroke: 2px rgba(255, 255, 255, 0.05);
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Noise Fill inside Text */
+        .mega-text::before {
+            content: "404";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.5' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.5'/%3E%3C/svg%3E");
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: rgba(255,255,255,0.8);
+            mix-blend-mode: overlay;
+        }
+
+        /* RGB Shift / Glitch Shadow */
+        .mega-text::after {
+            content: "404";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            color: #3b82f6;
+            opacity: 0.4;
+            mix-blend-mode: screen;
+            animation: glitch-anim 4s infinite alternate;
+            filter: blur(8px);
+            z-index: -1;
+        }
+
+        @keyframes glitch-anim {
+            0% { transform: translate(0); opacity: 0.3; }
+            20% { transform: translate(-2px, 2px); opacity: 0.3; }
+            40% { transform: translate(-2px, -2px); opacity: 0.3; }
+            50% { transform: translate(4px, -1px); opacity: 0.6; text-shadow: 5px 0 red; }
+            60% { transform: translate(-2px, 2px); opacity: 0.3; }
+            80% { transform: translate(2px, -2px); opacity: 0.3; }
+            100% { transform: translate(0); opacity: 0.3; }
+        }
+
+        /* Scrolling Terminal Background */
+        .terminal-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; justify-content: space-between;
+            padding: 0 5%;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.2;
+            mask-image: radial-gradient(circle, transparent 30%, black 100%);
+        }
+        .code-col {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: rgba(59, 130, 246, 0.4);
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            animation: matrix 20s linear infinite;
+        }
+        .code-col:nth-child(2n) { animation-duration: 25s; opacity: 0.15; }
+        .code-col:nth-child(3n) { animation-duration: 30s; opacity: 0.1; }
+
+        @keyframes matrix {
+            from { transform: translateY(-20%); }
+            to { transform: translateY(20%); }
+        }
+
+        /* Scanner Beam */
+        .scanner {
+            position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+            background: rgba(59, 130, 246, 0.8);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.8), 0 0 100px rgba(59, 130, 246, 0.4);
+            z-index: 60;
+            opacity: 0;
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen relative font-sans antialiased selection:bg-primary selection:text-white">
+    
+    <div class="grain"></div>
+    <div class="vignette"></div>
+    
+    <!-- 3D Environment -->
+    <div class="floor-grid"></div>
+
+    <!-- Background Matrix -->
+    <div class="terminal-bg">
+        <div class="code-col">ERR_CONNECTION_TIMED_OUT // STACK_OVERFLOW // 0x0000404</div>
+        <div class="code-col">KERNEL_PANIC // SYSTEM_HALT // MEMORY_DUMP_0294</div>
+        <div class="code-col">RESOURCE_NOT_FOUND // VOID_RETURN // NULL_POINTER</div>
+        <div class="code-col">DATA_CORRUPTION // SECTOR_7G_MISSING // REBOOT</div>
+        <div class="code-col">010010100101001 // FATAL_EXCEPTION // UNKNOWN</div>
+    </div>
+
+    <!-- Scanning Beam -->
+    <div class="scanner animate-scan"></div>
+
+    <div class="relative z-50 text-center px-4 flex flex-col items-center">
+        <!-- Badge -->
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 mb-8 backdrop-blur-md shadow-[0_0_15px_rgba(239,68,68,0.2)]">
+            <span class="relative flex h-2 w-2">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+            </span>
+            <span class="text-[10px] font-mono uppercase tracking-[0.2em] font-bold">Signal_Lost</span>
+        </div>
+
+        <!-- 404 Main -->
+        <h1 class="mega-text font-display tracking-tighter select-none mb-6">404</h1>
+
+        <div class="max-w-md mx-auto relative z-20">
+            <div class="h-px w-16 bg-gradient-to-r from-transparent via-primary to-transparent mx-auto mb-6"></div>
+            
+            <h2 class="text-xl md:text-2xl font-mono text-white mb-4 tracking-widest uppercase text-shadow">Coordinates Invalid</h2>
+            
+            <p class="text-gray-400 leading-relaxed font-light text-sm md:text-base mb-10">
+                The artifact you are searching for has been moved to a sector beyond the observable network. 
+            </p>
+
+            <!-- Magnetic Button -->
+            <a href="/" class="group relative inline-flex items-center gap-3 px-8 py-4 bg-white text-black rounded-full font-bold transition-all hover:scale-105 active:scale-95 shadow-[0_0_40px_rgba(255,255,255,0.15)] overflow-hidden">
+                <span class="absolute inset-0 bg-gradient-to-r from-gray-100 to-white opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                <span class="relative flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    Return to Base
+                </span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer Stats -->
+    <div class="absolute bottom-6 md:bottom-10 w-full px-10 flex justify-between text-[10px] font-mono text-gray-600 uppercase tracking-widest pointer-events-none">
+        <div class="hidden md:block">SYS_STATUS: CRITICAL</div>
+        <div>ID: 10-T // ERR_404</div>
+        <div class="hidden md:block">MEM: 0.00KB</div>
+    </div>
+
+</body>
+</html>
